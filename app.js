@@ -9,10 +9,14 @@ const port = 3000
 
 let sessionOptions = {
     secret: 'AkitaRose',
-    cookie: {}
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false }
 }
 
-app.set('view engine', 'ejs')
+app.set('view engine', 'ejs');
+app.set('views', __dirname + '/views');
+app.use(express.static(__dirname + '/public'));
 app.use(express.static("public"))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true}))
@@ -29,3 +33,7 @@ app.get('/', (request, response) =>{
     }
     response.render('home', model)
 });
+
+app.listen(port, () => {
+    console.log(`Server is running on http://localhost:${port}`)
+})
