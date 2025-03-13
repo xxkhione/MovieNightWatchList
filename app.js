@@ -126,12 +126,14 @@ app.post('/watchlist/add/:username', async (request, response) => {
     let username = request.params.username
     let title = request.body.title
     let genre = request.body.genre
+    let imageURL = request.body.imageURL
     let isShow = request.body.isShow === 'true'
     if(isShow) {
         let season = request.body.season
         let episode = request.body.episode
         let show = {
             title: title,
+            imageURL: imageURL,
             genre: genre,
             season: season,
             episode: episode,
@@ -142,6 +144,7 @@ app.post('/watchlist/add/:username', async (request, response) => {
     } else {
         let movie = {
             title: title,
+            imageURL: imageURL,
             genre: genre,
         }
         console.log(movie)

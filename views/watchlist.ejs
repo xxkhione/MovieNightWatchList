@@ -39,6 +39,10 @@
                 <input type="text" id="genre" name="genre" placeholder="Enter genre">
             </div>
             <div class="form-group">
+                <label for="imageUrl">Image Url:</label>
+                <input type="text" id="imageURL" name="imageURL" placeholder="Enter an Image URL">
+            </div>
+            <div class="form-group">
                 <label for="is-show">Is this a TV Show?</label>
                 <input type="checkbox" id="is-show" name="isShow" value="true">
             </div>
@@ -114,7 +118,9 @@
         <ul>
             <% if(moviesAndShows != undefined) {%>
                 <% moviesAndShows.forEach(movie => { %>
-                    <li><%= movie.title %> - <%= movie.genre %>
+                    <li>
+                        <img class="cover-image" src="<%= movie.imageURL %>" alt="<%= movie.title%>"/>
+                        <%= movie.title %> - <%= movie.genre %>
                     <% if (movie.season && movie.episode) { %>
                         (Season <%= movie.season %>, Episode <%= movie.episode %>)
                     <% } %>
