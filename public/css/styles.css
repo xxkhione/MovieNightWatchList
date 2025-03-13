@@ -1,5 +1,95 @@
+/* General Styles */
 body {
-    background-color: #af85ee;
+    font-family: Arial, sans-serif;
+    background-color: #9B70B3; /* Light purple background */
+    margin: 0;
+    padding: 0;
+}
+
+/* Floating Navbar */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: #ffffff;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #ccc;
+    z-index: 1000;
+}
+
+/* Navbar Items */
+.navbar button,
+.navbar input,
+.navbar select {
+    margin: 5px;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #666;
+}
+
+/* Watchlist styling */
+body {
+    font-family: Arial, sans-serif;
+}
+#movie-form, #delete-form {
+    display: none; /* Hidden by default */
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #7a588b;
+    width: 300px;
+    background: #7a588b;
+}
+.form-group {
+    margin-bottom: 10px;
+}
+.button-container {
+    margin-bottom: 20px;
+}
+.add-movie-button, .delete-button {
+    margin-right: 10px;
+    padding: 10px 15px;
+    background-color: #f08ce6;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+.delete-button {
+    background-color: rgb(126, 139, 231);
+}
+.add-movie-button:hover, .delete-button:hover {
+    opacity: 0.8;
+}
+.movie-item {
+    position: relative;
+    padding: 10px;
+    margin-bottom: 5px;
+    background-color: #9B70B3;
+    border: 1px solid #9B70B3;
+}
+
+.movie-item:hover {
+    background-color: #7a588b;
+    border: 1px solid #7a588b;
+}
+
+/* Movie List Section */
+.movie-container {
+    margin-top: 60px; /* Adjust for fixed navbar */
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.movie-card {
+    background: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
 }
 
 .invalidInput {
