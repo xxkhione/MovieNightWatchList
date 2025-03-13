@@ -1,7 +1,129 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" href="views\public\css\styles.css">
+        <link rel="stylesheet" href="/css/styles.css">
         <title>Watchlist</title>
     </head>
+    <body>
+        <header>
+            <%- include('partials/header') %>
+        </header>
+
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+            }
+            #movie-form {
+                display: none; /* Hidden by default */
+                margin-top: 20px;
+                padding: 10px;
+                border: 1px solid #ccc;
+                width: 300px;
+                background: #f9f9f9;
+            }
+            .form-group {
+                margin-bottom: 10px;
+            }
+        </style>
+
+        <button class="add-movie-button">Add Movie</button>
+
+        <div id="movie-form">
+            <h3>Add Movie / Show</h3>
+            <div class="form-group">
+                <label for="title">Title:</label>
+                <input type="text" id="title" placeholder="Enter title">
+            </div>
+            <div class="form-group">
+                <label for="genre">Genre:</label>
+                <input type="text" id="genre" placeholder="Enter genre">
+            </div>
+            <div class="form-group">
+                <label for="is-show">Is this a TV Show?</label>
+                <input type="checkbox" id="is-show">
+            </div>
+            <div id="show-details" style="display: none;">
+                <div class="form-group">
+                    <label for="season">Season:</label>
+                    <input type="number" id="season" placeholder="Enter season">
+                </div>
+                <div class="form-group">
+                    <label for="episode">Episode:</label>
+                    <input type="number" id="episode" placeholder="Enter episode">
+                </div>
+            </div>
+            <button id="submit-movie">Submit</button>
+            <button id="cancel-movie">Cancel</button>
+        </div>
+
+        <script>
+            const addButton = document.querySelector('.add-movie-button'); // Fix: use correct selector
+            const movieForm = document.getElementById('movie-form');
+            const submitButton = document.getElementById('submit-movie');
+            const cancelButton = document.getElementById('cancel-movie');
+            const isShowCheckbox = document.getElementById('is-show');
+            const showDetails = document.getElementById('show-details');
+            const movieList = document.getElementById('movie-list');
+
+            // Show the form when "Add Movie" is clicked
+            addButton.addEventListener('click', () => {
+                movieForm.style.display = 'block';
+            });
+
+            // Hide the form when "Cancel" is clicked
+            cancelButton.addEventListener('click', () => {
+                movieForm.style.display = 'none';
+            });
+
+            // Show or hide the Season/Episode fields based on checkbox
+            isShowCheckbox.addEventListener('change', () => {
+                showDetails.style.display = isShowCheckbox.checked ? 'block' : 'none';
+            });
+
+            // Handle form submission
+            submitButton.addEventListener('click', () => {
+                const title = document.getElementById('title').value.trim();
+                const genre = document.getElementById('genre').value.trim();
+                const isShow = isShowCheckbox.checked;
+                const season = document.getElementById('season').value.trim();
+                const episode = document.getElementById('episode').value.trim();
+
+                if (!title || !genre) {
+                    alert("Please enter a title and genre!");
+                    return;
+                }
+
+                let movieText = `${title} (${genre})`;
+                if (isShow) {
+                    movieText += ` - Season ${season}, Episode ${episode}`;
+                }
+
+                const li = document.createElement('li');
+                li.textContent = movieText;
+                movieList.appendChild(li);
+
+                // Clear the form and hide it
+                document.getElementById('title').value = "";
+                document.getElementById('genre').value = "";
+                document.getElementById('is-show').checked = false;
+                document.getElementById('season').value = "";
+                document.getElementById('episode').value = "";
+                showDetails.style.display = 'none';
+                movieForm.style.display = 'none';
+            });
+        </script>
+
+        <input type="text" class="search-bar" placeholder="Search">
+
+        <button class="search-button">Search</button>
+
+
+        <select class="sort-dropdown">
+            <option value="" disabled selected>Sort by...</option>
+            <option class="sort-option">Genre</option>
+            <option class="sort-option">Alphabetically</option>
+        </select>
+        
+        <ul id="movie-list"></ul> <!-- Added to display movie list -->
+    </body>
 </html>
