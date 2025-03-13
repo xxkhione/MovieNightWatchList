@@ -3,6 +3,7 @@
     <head>
         <link rel="stylesheet" href="/css/styles.css">
         <title>Register</title>
+        <script src="/js/register-validation.js" defer></script>
     </head>
     <body>
         <%- include('partials/header') %>
@@ -17,6 +18,8 @@
             <input id="password" class="importantInfo" type="text" name="password" placeholder="Enter a password"/>
             <span id="passwordError" class="invalidMessage" hidden>Must have 8 characters.</span>
             <br>
+            <br>
+            <input type="submit" placeholder="Create Account"/>
         </form>
     </body>
 </html>

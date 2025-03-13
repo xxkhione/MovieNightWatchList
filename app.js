@@ -69,6 +69,19 @@ app.get('/register', (request, response) =>{
     response.render('register', model)
 });
 
+app.post('/register', async (request, response) => {
+    console.log("REGISTER SUCCESSFUL!")
+    let password = request.body.password
+    let newPassword = await bcrypt.hash(password, saltRounds)
+    let newUserData = {
+        username: request.body.username,
+        password: newPassword,
+        movies: [],
+    }
+    DAL.register(newUserData)
+    response.redirect('/login')
+});
+
 app.get('/watchlist', (request, response) =>{
     console.log("WATCHLIST")
     let loggedIn = false
