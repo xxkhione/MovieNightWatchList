@@ -27,7 +27,7 @@ exports.DAL = {
         try{
             await client.connect()
             const result = await usersCollection.updateOne(
-                {username : username},
+                {username: username},
                 {$push: {movies: movie}}
             )
             return result
@@ -35,12 +35,12 @@ exports.DAL = {
             await client.close()
         }
     },
-    getUserWatchList: async function(userId) {
+    getUserWatchList: async function(username) {
         try {
             await client.connect();
             const result = await usersCollection.findOne(
-                {_id: new ObjectId(userId)},
-                {projection: {movies: 1}}
+                {username: username},
+                {projection: {moviesAndShows: 1}}
             )
             return user ? user.movies : null;
         } finally {

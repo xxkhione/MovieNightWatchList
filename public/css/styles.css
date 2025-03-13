@@ -1,3 +1,18 @@
 body {
     background-color: #af85ee;
 }
+
+.invalidInput {
+    border: solid 1px #F13C20;
+    border-radius: 2px;
+}
+.invalidMessage {
+    color: #F13C20;
+    font-weight: bold;
+}
+.importantInfo {
+    margin: 0 auto;
+    display:flex;
+    flex: 1;
+    margin-top: 5px;
+}

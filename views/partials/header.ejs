@@ -1,9 +1,14 @@
 <header>
     <nav class="nav-bar">
         <a href="/">Home</a>
-        <a href="/login">Login</a>
-        <a href="/profile">Profile</a>
-        <a href="/register">Register</a>
-        <a href="/watchlist">Watchlist</a>
+        <% if(!loggedIn) { %>
+            <a href="/login">Login</a>
+            <a href="/register">Register</a>
+        <% } %>
+        <% if(loggedIn) { %>
+            <a href="/watchlist">Watchlist</a>
+            <a href="/profile">Profile</a>
+            <button id="logoutButton" onclick="window.location.href='/logout'">Logout</button>
+        <% } %>
     </nav>
 </header>

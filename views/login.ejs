@@ -6,6 +6,16 @@
     </head>
     <body>
         <%- include('partials/header') %>
-        <p>Hello login page</p>
+        <h1>Welcome Back!</h1>
+        <p>Fill out the form below to login!</p>
+        <form id="loginForm" action="/login" method="post">
+            <label>Username:</label>
+            <input id="username" class="importantInfo" type="text" name="username" placeholder="Enter a username"/>
+            <br>
+            <label>Password:</label>
+            <input id="passowrd" class="importantInfo" type="password" name="password" placeholder="Enter a password"/>
+            <br>
+            <input type="submit" placeholder="Create Account"/>
+        </form>
     </body>
 </html>
