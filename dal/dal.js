@@ -3,6 +3,7 @@ const uri = "mongodb+srv://dev:dev@cluster.xrzowho.mongodb.net/?retryWrites=true
 const client = new MongoClient(uri)
 const myDB = client.db("CSC130")
 const usersCollection = myDB.collection("users")
+const movieCollection = myDB.collection("movies")
 
 exports.DAL = {
     register: async function(data) {
@@ -19,6 +20,15 @@ exports.DAL = {
             await client.connect()
             const requestedUser = await usersCollection.findOne({ username: username})
             return requestedUser
+        } finally {
+            await client.close()
+        }
+    },
+    addMovie: async function(data) {
+        try{
+            await client.connect()
+            console.log(data)
+            const insertMovieData = await movieCollection.insertOne(data)
         } finally {
             await client.close()
         }
