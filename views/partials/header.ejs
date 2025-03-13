@@ -6,8 +6,8 @@
             <a href="/register">Register</a>
         <% } %>
         <% if(loggedIn) { %>
-            <a href="/watchlist">Watchlist</a>
-            <a href="/profile">Profile</a>
+            <a href="/watchlist/<%=username%>">Watchlist</a>
+            <a href="/profile/<%=username%>">Profile</a>
             <button id="logoutButton" onclick="window.location.href='/logout'">Logout</button>
         <% } %>
     </nav>

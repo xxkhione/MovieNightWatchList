@@ -28,33 +28,33 @@
 
         <button class="add-movie-button">Add Movie</button>
 
-        <div id="movie-form" method="post">
+        <form id="movie-form" action="/watchlist/add/<%=username%>" method="post">
             <h3>Add Movie / Show</h3>
             <div class="form-group">
                 <label for="title">Title:</label>
-                <input type="text" id="title" placeholder="Enter title">
+                <input type="text" id="title" name="title" placeholder="Enter title">
             </div>
             <div class="form-group">
                 <label for="genre">Genre:</label>
-                <input type="text" id="genre" placeholder="Enter genre">
+                <input type="text" id="genre" name="genre" placeholder="Enter genre">
             </div>
             <div class="form-group">
                 <label for="is-show">Is this a TV Show?</label>
-                <input type="checkbox" id="is-show">
+                <input type="checkbox" id="is-show" name="isShow" value="true">
             </div>
             <div id="show-details" style="display: none;">
                 <div class="form-group">
                     <label for="season">Season:</label>
-                    <input type="number" id="season" placeholder="Enter season">
+                    <input type="number" id="season" name="season" placeholder="Enter season">
                 </div>
                 <div class="form-group">
                     <label for="episode">Episode:</label>
-                    <input type="number" id="episode" placeholder="Enter episode">
+                    <input type="number" id="episode" name="episode" placeholder="Enter episode">
                 </div>
             </div>
-            <button id="submit-movie">Submit</button>
+            <button type="submit" id="submit-movie">Submit</button>
             <button id="cancel-movie">Cancel</button>
-        </div>
+        </form>
 
         <input type="text" class="search-bar" placeholder="Search">
         <button class="search-button">Search</button>
@@ -93,40 +93,6 @@
                     showDetails.style.display = isShowCheckbox.checked ? 'block' : 'none';
                 });
 
-                // Handle form submission to add movie/show
-                submitButton.addEventListener('click', () => {
-                    const title = document.getElementById('title').value.trim();
-                    const genre = document.getElementById('genre').value.trim();
-                    const isShow = isShowCheckbox.checked;
-                    const season = document.getElementById('season').value.trim();
-                    const episode = document.getElementById('episode').value.trim();
-
-                    if (!title || !genre) {
-                        alert("Please enter a title and genre!");
-                        return;
-                    }
-
-                    let movieText = `${title} (${genre})`;
-                    if (isShow) {
-                        movieText += ` - Season ${season}, Episode ${episode}`;
-                    }
-
-                    const li = document.createElement('li');
-                    li.textContent = movieText;
-                    movieList.appendChild(li); // Add movie/show to the list
-
-                    // Clear the form fields
-                    document.getElementById('title').value = "";
-                    document.getElementById('genre').value = "";
-                    document.getElementById('is-show').checked = false;
-                    document.getElementById('season').value = "";
-                    document.getElementById('episode').value = "";
-                    showDetails.style.display = 'none';
-
-                    // Hide the form
-                    movieForm.style.display = 'none';
-                });
-
                 // Search functionality
                 const searchButton = document.querySelector('.search-button');
                 const searchInput = document.querySelector('.search-bar');
@@ -145,12 +111,18 @@
                 });
             });
         </script>
-
-        <% if(moviesAndShows != null) %>
-            <% for(let i = 0; i > moviesAndShows.length; i++) { %>
-                <ul>
-                    <li><% moviesAndShows[i].title %></li>
-                </ul>
+        <ul>
+            <% if(moviesAndShows != undefined) {%>
+                <% moviesAndShows.forEach(movie => { %>
+                    <li><%= movie.title %> - <%= movie.genre %>
+                    <% if (movie.season && movie.episode) { %>
+                        (Season <%= movie.season %>, Episode <%= movie.episode %>)
+                    <% } %>
+                    </li>
+                <% }); %>
+            <% } else { %>
+                <li>Your watchlist is empty.</li>
             <% } %>
+        </ul>
     </body>
 </html>

@@ -71,6 +71,7 @@ app.get('/profile/:username', async (request, response) => {
             let model = {
                 name: requestedUser.name,
                 username: requestedUser.username,
+                numberOfMoviesAndShow: requestedUser.moviesAndShows.length,
                 loggedIn: loggedIn
             }
             response.render('profile', model)
@@ -105,24 +106,27 @@ app.post('/register', async (request, response) => {
     response.redirect('/login')
 });
 
-app.get('/watchlist', (request, response) =>{
+app.get('/watchlist/:username', async (request, response) =>{
     console.log("WATCHLIST")
     let loggedIn = false
-    if(request.session.username){
+    if(request.params.username){
         loggedIn = true
-        moviesAndShows = request.body.moviesAndShows
     }
     let model = {
-        loggedIn: loggedIn
+        loggedIn: loggedIn,
+        username: request.params.username,
+        moviesAndShows: await DAL.getUserWatchList(request.params.username)
     }
+    console.log(model.moviesAndShows)
     response.render('watchlist', model)
 });
 
-app.post('/watchlist/add', (request, response) => {
+app.post('/watchlist/add/:username', async (request, response) => {
     console.log("ADD TO WATCHLIST")
+    let username = request.params.username
     let title = request.body.title
     let genre = request.body.genre
-    let isShow = request.body.is-show
+    let isShow = request.body.isShow === 'true'
     if(isShow) {
         let season = request.body.season
         let episode = request.body.episode
@@ -132,15 +136,17 @@ app.post('/watchlist/add', (request, response) => {
             season: season,
             episode: episode,
         }
-        DAL.addMovie(show)
-        response.redirect('/watchlist')
+        console.log(show)
+        DAL.addMovie(username, show)
+        response.redirect(`/watchlist/${username}`)
     } else {
         let movie = {
             title: title,
             genre: genre,
         }
-        DAL.addMovie(movie)
-        response.redirect('/watchlist')
+        console.log(movie)
+        DAL.addMovie(username, movie)
+        response.redirect(`/watchlist/${username}`)
     }
 });
 
@@ -152,4 +158,5 @@ app.get('/logout', (request, response) => {
 
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`)
+    DAL.connectToClient()
 })
