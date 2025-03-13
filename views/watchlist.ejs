@@ -46,7 +46,7 @@
         </form>
 
         <!-- Delete Movie Form -->
-        <form id="delete-form" action="/watchlist/delete" method="post">
+        <form id="delete-form" action="/watchlist/delete/<%=username%>" method="post">
             <h3>Delete Movie / Show</h3>
             <div class="form-group">
                 <label for="delete-title">Movie Title:</label>
@@ -56,14 +56,14 @@
             <button id="cancel-delete">Cancel</button>
         </form>
 
-        <input type="text" class="search-bar" placeholder="Search">
+        <!-- <input type="text" class="search-bar" placeholder="Search">
         <button class="search-button">Search</button>
 
         <select class="sort-dropdown">
             <option value="" disabled selected>Sort by...</option>
-            <option class="sort-option">Genre</option>
-            <option class="sort-option">Alphabetically</option>
-        </select>
+            <option class="sort-option" value="genre">Genre</option>
+            <option class="sort-option" value="alphabetically">Alphabetically</option>
+        </select> -->
 
         <ul id="movie-list">
             <% if (moviesAndShows && moviesAndShows.length > 0) { %>
@@ -90,7 +90,6 @@
                 const deleteForm = document.getElementById('delete-form');
                 const cancelButton = document.getElementById('cancel-movie');
                 const cancelDeleteButton = document.getElementById('cancel-delete');
-                const isShowCheckbox = document.getElementById('is-show');
                 const showDetails = document.getElementById('show-details');
 
                 // Show the "Add Movie" form

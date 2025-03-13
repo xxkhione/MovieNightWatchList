@@ -155,11 +155,11 @@ app.post('/watchlist/add/:username', async (request, response) => {
     }
 });
 
-app.post('/watchlist/delete', async (request, response) => {
+app.post('/watchlist/delete/:username', async (request, response) => {
     console.log("DELETE REQUEST RECEIVED");
 
     let title = request.body.title;
-    let username = request.user?.username || "defaultUser"; 
+    let username = request.params.username; 
 
     console.log(`Attempting to delete movie: ${title} for user: ${username}`);
 

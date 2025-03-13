@@ -48,5 +48,52 @@ exports.DAL = {
         } else { 
             return null;
         }
-    }
+    },
+    filterWatchListByAlphabet: async function(username) {
+        const result = await usersCollection.aggregate([
+            {
+                $match: {
+                    username: username
+                }
+            },
+            {
+                $set: {
+                    moviesAndShows: {
+                        $sortArray: {
+                            input: "$moviesAndShows",
+                            sortBy: {title: 1}
+                        }
+                    }
+                }
+            }
+        ])
+        return result[0]
+    },
+    filterWatchListByGenre: async function(username) {
+        const result = await usersCollection.aggregate([
+            {
+                $match: {
+                    username: username
+                }
+            },
+            {
+                $set: {
+                    moviesAndShows: {
+                        $sortArray: {
+                            input: "$moviesAndShows",
+                            sortBy: {genre: 1}
+                        }
+                    }
+                }
+            }
+        ])
+        return result[0]
+    },
+    deleteGame: async function(username, title) {
+        const result = await usersCollection.updateOne(
+            { username: username },
+            { $pull: {moviesAndShows: {title: title}}}
+        )
+        return result;
+    },
 }
