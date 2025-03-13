@@ -100,3 +100,7 @@ body {
     color: #F13C20;
     font-weight: bold;
 }
+.cover-image {
+    width: 200px;
+    height: 300px;
+}
