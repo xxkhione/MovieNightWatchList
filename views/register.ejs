@@ -6,6 +6,17 @@
     </head>
     <body>
         <%- include('partials/header') %>
-        <p>Hello register page</p>
+        <h1>Create an Account!</h1>
+        <p>Fill out the form below to create an account!</p>
+        <form id="registerForm" class="form" action="/register" method="post">
+            <label>Username:</label>
+            <input id="username" class="importantInfo" type="text" name="username" placeholder="Enter a username"/>
+            <span id="usernameError" class="invalidMessage" hidden>Must have two characters.</span>
+            <br>
+            <label>Password:</label>
+            <input id="password" class="importantInfo" type="text" name="password" placeholder="Enter a password"/>
+            <span id="passwordError" class="invalidMessage" hidden>Must have 8 characters.</span>
+            <br>
+        </form>
     </body>
 </html>
