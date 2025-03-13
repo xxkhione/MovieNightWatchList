@@ -23,12 +23,14 @@ app.use(session(sessionOptions))
 
 app.get('/', (request, response) =>{
     console.log("HOME")
+    let username = null
     let loggedIn = false
     if(request.session.username){
         loggedIn = true
     }
     let model = {
-        loggedIn: loggedIn
+        loggedIn: loggedIn,
+        username:username
     }
     response.render('home', model)
 });
@@ -152,6 +154,31 @@ app.post('/watchlist/add/:username', async (request, response) => {
         response.redirect(`/watchlist/${username}`)
     }
 });
+
+app.post('/watchlist/delete', async (request, response) => {
+    console.log("DELETE REQUEST RECEIVED");
+
+    let title = request.body.title;
+    let username = request.user?.username || "defaultUser"; 
+
+    console.log(`Attempting to delete movie: ${title} for user: ${username}`);
+
+    if (!title) {
+        console.log("No title provided!");
+        return response.status(400).send("Movie title is required.");
+    }
+
+    try {
+        await DAL.deleteMovie(username, title);
+        console.log(`Successfully deleted: ${title}`);
+        response.redirect(`/watchlist/${username}`);
+    } catch (error) {
+        console.error("Error deleting movie:", error);
+        response.status(500).send("Error deleting movie.");
+    }
+});
+
+
 
 app.get('/logout', (request, response) => {
     console.log("LOGOUT REQUEST")

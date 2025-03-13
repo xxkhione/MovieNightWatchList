@@ -4,29 +4,14 @@
         <link rel="stylesheet" href="/css/styles.css">
         <title>Watchlist</title>
     </head>
+    <header>
+        <%- include('partials/header') %>
+    </header>
     <body>
-        <header>
-            <%- include('partials/header') %>
-        </header>
-
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-            }
-            #movie-form {
-                display: none; /* Hidden by default */
-                margin-top: 20px;
-                padding: 10px;
-                border: 1px solid #ccc;
-                width: 300px;
-                background: #f9f9f9;
-            }
-            .form-group {
-                margin-bottom: 10px;
-            }
-        </style>
-
-        <button class="add-movie-button">Add Movie</button>
+        <div class="button-container">
+            <button class="add-movie-button">Add Movie</button>
+            <button class="delete-button">Delete Movie</button>
+        </div>
 
         <form id="movie-form" action="/watchlist/add/<%=username%>" method="post">
             <h3>Add Movie / Show</h3>
@@ -60,6 +45,17 @@
             <button id="cancel-movie">Cancel</button>
         </form>
 
+        <!-- Delete Movie Form -->
+        <form id="delete-form" action="/watchlist/delete" method="post">
+            <h3>Delete Movie / Show</h3>
+            <div class="form-group">
+                <label for="delete-title">Movie Title:</label>
+                <input type="text" id="delete-title" name="title" placeholder="Enter title to delete">
+            </div>
+            <button type="submit" id="confirm-delete">Delete</button>
+            <button id="cancel-delete">Cancel</button>
+        </form>
+
         <input type="text" class="search-bar" placeholder="Search">
         <button class="search-button">Search</button>
 
@@ -69,53 +65,8 @@
             <option class="sort-option">Alphabetically</option>
         </select>
 
-        <ul id="movie-list"></ul> <!-- The ul to display movies/shows -->
-
-        <script>
-            // Ensure the DOM is loaded before accessing elements
-            document.addEventListener('DOMContentLoaded', () => {
-                const addButton = document.querySelector('.add-movie-button');
-                const movieForm = document.getElementById('movie-form');
-                const submitButton = document.getElementById('submit-movie');
-                const cancelButton = document.getElementById('cancel-movie');
-                const showDetails = document.getElementById('show-details');
-                const movieList = document.getElementById('movie-list');
-
-                // Show the form when "Add Movie" is clicked
-                addButton.addEventListener('click', () => {
-                    movieForm.style.display = 'block';
-                });
-
-                // Hide the form when "Cancel" is clicked
-                cancelButton.addEventListener('click', () => {
-                    movieForm.style.display = 'none';
-                });
-
-                // Show or hide the Season/Episode fields based on checkbox
-                isShowCheckbox.addEventListener('change', () => {
-                    showDetails.style.display = isShowCheckbox.checked ? 'block' : 'none';
-                });
-
-                // Search functionality
-                const searchButton = document.querySelector('.search-button');
-                const searchInput = document.querySelector('.search-bar');
-                
-                searchButton.addEventListener('click', () => {
-                    const searchTerm = searchInput.value.trim().toLowerCase();
-                    const movieListItems = document.querySelectorAll('#movie-list li');
-
-                    movieListItems.forEach(item => {
-                        if (item.textContent.toLowerCase().includes(searchTerm)) {
-                            item.style.display = 'list-item'; // Show matching item
-                        } else {
-                            item.style.display = 'none'; // Hide non-matching item
-                        }
-                    });
-                });
-            });
-        </script>
-        <ul>
-            <% if(moviesAndShows != undefined) {%>
+        <ul id="movie-list">
+            <% if (moviesAndShows && moviesAndShows.length > 0) { %>
                 <% moviesAndShows.forEach(movie => { %>
                     <li>
                         <img class="cover-image" src="<%= movie.imageURL %>" alt="<%= movie.title%>"/>
@@ -129,5 +80,48 @@
                 <li>Your watchlist is empty.</li>
             <% } %>
         </ul>
+
+        <script>
+            // Ensure the DOM is loaded before accessing elements
+            document.addEventListener('DOMContentLoaded', () => {
+                const addButton = document.querySelector('.add-movie-button');
+                const deleteButton = document.querySelector('.delete-button');
+                const movieForm = document.getElementById('movie-form');
+                const deleteForm = document.getElementById('delete-form');
+                const cancelButton = document.getElementById('cancel-movie');
+                const cancelDeleteButton = document.getElementById('cancel-delete');
+                const isShowCheckbox = document.getElementById('is-show');
+                const showDetails = document.getElementById('show-details');
+
+                // Show the "Add Movie" form
+                addButton.addEventListener('click', () => {
+                    movieForm.style.display = 'block';
+                    deleteForm.style.display = 'none'; // Hide delete form if open
+                });
+
+                // Show the "Delete Movie" form
+                deleteButton.addEventListener('click', () => {
+                    deleteForm.style.display = 'block';
+                    movieForm.style.display = 'none'; // Hide add form if open
+                });
+
+                // Hide the "Add Movie" form when "Cancel" is clicked
+                cancelButton.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    movieForm.style.display = 'none';
+                });
+
+                // Hide the "Delete Movie" form when "Cancel" is clicked
+                cancelDeleteButton.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    deleteForm.style.display = 'none';
+                });
+
+                // Show or hide the Season/Episode fields based on checkbox
+                isShowCheckbox.addEventListener('change', () => {
+                    showDetails.style.display = isShowCheckbox.checked ? 'block' : 'none';
+                });
+            });
+        </script>
     </body>
 </html>

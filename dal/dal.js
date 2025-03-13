@@ -27,6 +27,20 @@ exports.DAL = {
         )
         return result
     },
+    deleteMovie: async function(username, title) {
+        console.log(`Deleting movie: ${title} for user: ${username}`);
+
+        const result = await usersCollection.updateOne(
+            { username: username },
+            { $pull: { moviesAndShows: { title: title } } }
+        );
+
+        if (result.modifiedCount === 0) {
+            throw new Error("Movie not found or not deleted");
+        }
+
+        return result;
+    },
     getUserWatchList: async function(username) {
         const result = await usersCollection.findOne({username: username})
         if(result) {
